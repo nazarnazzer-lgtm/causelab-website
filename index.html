@@ -111,8 +111,8 @@
       transition:transform .85s cubic-bezier(.34,1.22,.64,1),opacity .85s ease,box-shadow .4s;
       transform-style:preserve-3d;
     }
-    .cl-witem-name{font-size:13px;font-weight:900;color:rgba(254,254,228,.95);line-height:1.25;letter-spacing:-.2px;position:relative;z-index:2;pointer-events:none}
-    .cl-witem-sector{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(254,254,228,.5);margin-top:3px;position:relative;z-index:2;pointer-events:none}
+    .cl-witem-name{font-size:15px;font-weight:900;color:rgba(254,254,228,.95);line-height:1.25;letter-spacing:-.3px;position:relative;z-index:2;pointer-events:none}
+    .cl-witem-sector{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(254,254,228,.6);margin-top:5px;position:relative;z-index:2;pointer-events:none}
     .cl-witem-shine{position:absolute;inset:0;background:rgba(254,254,228,.06);opacity:0;transition:opacity .3s}
     .cl-witem:hover .cl-witem-shine{opacity:1}
 
@@ -126,34 +126,35 @@
     @keyframes pulse-ring{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:0;transform:scale(1.07)}}
 
     /* ── Controls ── */
-    .cl-wcontrols{display:flex;align-items:center;gap:2.5rem;margin-top:2.5rem;z-index:2;position:relative}
-    .cl-warr{font-family:"lorimer-no-2",sans-serif;font-size:18px;font-weight:900;background:rgba(254,254,228,.06);border:1.5px solid rgba(254,254,228,.15);width:52px;height:52px;border-radius:50%;cursor:none;transition:all .2s;color:var(--cream);display:flex;align-items:center;justify-content:center}
-    .cl-warr:hover{background:var(--orange);border-color:var(--orange);transform:scale(1.08)}
-    .cl-warr:active{transform:scale(.95)}
-    .cl-wcnt{font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(254,254,228,.3);text-transform:uppercase;min-width:60px;text-align:center}
+    .cl-wcontrols{display:flex;align-items:center;gap:2rem;margin-top:2.5rem;z-index:2;position:relative;flex-direction:column;gap:1.2rem}
+    .cl-wctop{display:flex;align-items:center;gap:2.5rem}
+    .cl-warr{font-family:"lorimer-no-2",sans-serif;font-size:20px;font-weight:900;background:rgba(254,254,228,.08);border:2px solid rgba(254,254,228,.2);width:60px;height:60px;border-radius:50%;cursor:none;transition:all .2s;color:var(--cream);display:flex;align-items:center;justify-content:center}
+    .cl-warr:hover{background:var(--orange);border-color:var(--orange);transform:scale(1.1)}
+    .cl-warr:active{transform:scale(.93)}
+    .cl-whint{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(254,254,228,.25);text-align:center}
 
     /* progress dots */
-    .cl-wdots{display:flex;gap:8px;align-items:center}
-    .cl-wdot{width:6px;height:6px;border-radius:50%;background:rgba(254,254,228,.2);transition:all .4s;cursor:none}
-    .cl-wdot.active{width:24px;border-radius:3px;background:var(--orange)}
+    .cl-wdots{display:flex;gap:10px;align-items:center}
+    .cl-wdot{width:8px;height:8px;border-radius:50%;background:rgba(254,254,228,.2);transition:all .4s;cursor:none}
+    .cl-wdot.active{width:28px;border-radius:4px;background:var(--orange)}
 
     /* ── Info Panel ── */
     .cl-winfo{
-      display:grid;grid-template-columns:100px 1fr auto;
-      gap:3rem;align-items:center;
-      padding:3rem;
-      border-top:1px solid rgba(254,254,228,.08);
+      display:grid;grid-template-columns:120px 1fr;
+      gap:3.5rem;align-items:start;
+      padding:3.5rem 4rem;
+      border-top:1px solid rgba(254,254,228,.1);
       transition:opacity .3s ease,transform .3s ease;
     }
-    .cl-winfo.fading{opacity:0;transform:translateY(10px)}
-    .cl-wip-num{font-size:88px;font-weight:900;letter-spacing:-4px;color:rgba(254,254,228,.07);line-height:1;user-select:none}
-    .cl-wip-main h3{font-size:clamp(28px,3.5vw,42px);font-weight:900;letter-spacing:-1.5px;color:var(--cream);line-height:1;margin-bottom:.6rem}
-    .cl-wip-main p{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange)}
-    .cl-wip-right{max-width:340px}
-    .cl-witags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
-    .cl-witag{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:100px;border:1px solid rgba(254,254,228,.2);color:rgba(254,254,228,.7)}
-    .cl-widesc{font-size:14px;font-weight:300;line-height:1.75;color:rgba(254,254,228,.5);margin-bottom:1.5rem}
-    .cl-wilink{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);text-decoration:none;display:inline-flex;align-items:center;gap:8px;border-bottom:1.5px solid rgba(249,193,46,.3);padding-bottom:2px;transition:border-color .2s}
+    .cl-winfo.fading{opacity:0;transform:translateY(12px)}
+    .cl-wip-num{font-size:100px;font-weight:900;letter-spacing:-5px;color:rgba(254,254,228,.07);line-height:1;user-select:none;padding-top:.5rem}
+    .cl-wip-main{}
+    .cl-wip-main h3{font-size:clamp(32px,4vw,52px);font-weight:900;letter-spacing:-2px;color:var(--cream);line-height:1;margin-bottom:.75rem}
+    .cl-wip-main .cl-wisector{font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:1.5rem}
+    .cl-witags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem}
+    .cl-witag{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1.5px solid rgba(254,254,228,.25);color:rgba(254,254,228,.8)}
+    .cl-widesc{font-size:17px;font-weight:300;line-height:1.8;color:rgba(254,254,228,.65);margin-bottom:2rem}
+    .cl-wilink{font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);text-decoration:none;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid rgba(249,193,46,.3);padding-bottom:3px;transition:border-color .2s}
     .cl-wilink:hover{border-color:var(--yellow)}
 
     /* ── SERVICES ── */
@@ -199,9 +200,11 @@
       .cl-nav{padding:1.2rem 1.5rem}
       .cl-nav-links{display:none}
       .cl-svcs,.cl-cta,.cl-foot,.cl-work-hdr,.cl-winfo{padding-left:1.5rem;padding-right:1.5rem}
-      .cl-wheel-stage{width:340px;height:340px}
-      .cl-winfo{grid-template-columns:1fr}
+      .cl-wheel-stage{width:360px;height:360px}
+      .cl-winfo{grid-template-columns:1fr;padding:2rem 1.5rem}
       .cl-wip-num{display:none}
+      .cl-widesc{font-size:15px}
+      .cl-wip-main h3{font-size:28px}
       .cl-wheel-hub{width:80px;height:80px;font-size:8px}
       .cl-hub-ring{width:96px;height:96px;margin:-48px 0 0 -48px}
     }
@@ -284,9 +287,12 @@
     </div>
 
     <div class="cl-wcontrols">
-      <button class="cl-warr" id="wbtn-prev" aria-label="Previous">←</button>
-      <div class="cl-wdots" id="wdots"></div>
-      <button class="cl-warr" id="wbtn-next" aria-label="Next">→</button>
+      <div class="cl-wctop">
+        <button class="cl-warr" id="wbtn-prev" aria-label="Previous">←</button>
+        <div class="cl-wdots" id="wdots"></div>
+        <button class="cl-warr" id="wbtn-next" aria-label="Next">→</button>
+      </div>
+      <div class="cl-whint">Click a card · drag · or use arrow keys</div>
     </div>
   </div>
 
@@ -295,9 +301,7 @@
     <div class="cl-wip-num" id="wip-num">01</div>
     <div class="cl-wip-main">
       <h3 id="winame"></h3>
-      <p id="wisector"></p>
-    </div>
-    <div class="cl-wip-right">
+      <p class="cl-wisector" id="wisector"></p>
       <div class="cl-witags" id="witags"></div>
       <p class="cl-widesc" id="widesc"></p>
       <a href="#" class="cl-wilink">View project →</a>
