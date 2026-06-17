@@ -13,12 +13,12 @@
     body{font-family:"lorimer-no-2",sans-serif;background:var(--cream);color:var(--brown);cursor:none;overflow-x:hidden}
 
     /* CURSOR */
-    #cur{position:fixed;width:10px;height:10px;background:var(--orange);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:9999;transition:width .18s,height .18s,background .2s;top:-20px;left:-20px}
-    #ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--orange);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:9998;opacity:.55;top:-20px;left:-20px;transition:width .2s,height .2s,border-color .2s}
+    #cur{position:fixed;width:10px;height:10px;background:var(--orange);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:9999;transition:width .18s,height .18s;top:-20px;left:-20px}
+    #ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--orange);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:9998;opacity:.55;top:-20px;left:-20px;transition:width .2s,height .2s}
     #cur.big{width:22px;height:22px}#ring.big{width:58px;height:58px}
 
     /* NAV */
-    .cl-nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(90,50,48,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;animation:fi .5s .1s forwards}
+    .cl-nav{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(90,50,48,.88);backdrop-filter:blur(12px);opacity:0;animation:fi .5s .1s forwards}
     .cl-logo{font-size:20px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--cream);text-decoration:none}
     .cl-logo em{color:var(--orange);font-style:normal}
     .cl-nav-r{display:flex;align-items:center;gap:2rem}
@@ -33,12 +33,9 @@
     /* HERO */
     .cl-hero{background:var(--brown);min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center}
     #hero-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-
-    /* Film grain overlay */
     .cl-grain{position:absolute;inset:0;z-index:1;opacity:.04;pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size:200px}
-
     .cl-hero-inner{position:relative;z-index:2;padding:9rem 3rem 6rem;width:100%;max-width:1280px;display:grid;grid-template-columns:1fr 300px;gap:4rem;align-items:center;margin:0 auto}
     .cl-hero-text{will-change:transform;transition:transform .08s ease-out}
     .cl-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:2rem;opacity:0;animation:fi .5s .5s forwards}
@@ -87,80 +84,98 @@
     .rvl.in{opacity:1;transform:translateX(0)}
 
     /* ═══════════════════════════════
-       WORK — 3D CYLINDER CAROUSEL
+       WORK SECTION — BUBBLE CAROUSEL
     ═══════════════════════════════ */
     .cl-work{background:var(--brown);padding:6rem 0 0;overflow:hidden}
-    .cl-work-hdr{display:flex;justify-content:space-between;align-items:center;padding:0 3rem;margin-bottom:3rem}
+    .cl-work-hdr{display:flex;justify-content:space-between;align-items:center;padding:0 3rem;margin-bottom:2rem}
     .cl-work-hdr span{font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(254,254,228,.3)}
     .cl-work-hdr a{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);text-decoration:none;border-bottom:1.5px solid rgba(249,193,46,.3);padding-bottom:2px;transition:border-color .2s}
     .cl-work-hdr a:hover{border-color:var(--yellow)}
 
-    .cl-carousel-wrap{display:flex;flex-direction:column;align-items:center;padding:2rem 0 3rem;position:relative}
+    .cl-bubble-scene{position:relative;width:100%;height:460px;overflow:hidden}
 
-    /* Ambient glow behind carousel */
-    .cl-carousel-wrap::before{
-      content:'';position:absolute;top:50%;left:50%;
-      transform:translate(-50%,-60%);
-      width:500px;height:300px;
-      background:radial-gradient(ellipse, rgba(229,82,28,.12) 0%, transparent 70%);
-      pointer-events:none;z-index:0;
+    /* Ambient glow radial */
+    .cl-bubble-scene::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);width:600px;height:360px;background:radial-gradient(ellipse,rgba(229,82,28,.1) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+    /* Each bubble has a positioning wrapper + the visual inner */
+    .cl-bwrap{
+      position:absolute;top:50%;left:50%;
+      width:152px;height:152px;
+      margin:-76px 0 0 -76px;
+      transform:translate(var(--bx,0px),var(--by,0px));
+      transition:transform .28s ease-out,opacity .35s;
+      cursor:none;z-index:1;
+    }
+    .cl-bwrap.active{
+      transform:translate(var(--bx,0px),var(--by,0px)) scale(1.3);
+      z-index:10;
+    }
+    .cl-bwrap:not(.active):hover{
+      transform:translate(var(--bx,0px),calc(var(--by,0px) - 10px)) scale(1.1);
+    }
+    .cl-bwrap.dim{opacity:.38}
+
+    /* The visual bubble */
+    .cl-bubble{
+      width:100%;height:100%;border-radius:50%;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;padding:.9rem;position:relative;overflow:hidden;
+
+      /* Glass/soap bubble look */
+      background:
+        radial-gradient(circle at 36% 28%,rgba(255,255,255,.52) 0%,rgba(255,255,255,.14) 28%,transparent 58%),
+        radial-gradient(circle at 70% 72%,rgba(0,0,0,.1) 0%,transparent 50%),
+        var(--bc,#e5521c);
+      border:1.5px solid rgba(255,255,255,.2);
+      box-shadow:
+        inset 0 3px 14px rgba(255,255,255,.24),
+        inset 0 -3px 8px rgba(0,0,0,.14),
+        0 10px 40px rgba(0,0,0,.5),
+        0 2px 6px rgba(0,0,0,.3);
+      transition:box-shadow .4s;
     }
 
-    .cl-carousel-stage{
-      width:100%;height:380px;
-      perspective:1100px;
-      perspective-origin:50% 50%;
-      position:relative;z-index:1;
+    .cl-bwrap.active .cl-bubble{
+      box-shadow:
+        inset 0 3px 18px rgba(255,255,255,.36),
+        inset 0 -3px 8px rgba(0,0,0,.1),
+        0 20px 64px rgba(0,0,0,.65),
+        0 0 0 3px rgba(254,254,228,.4),
+        0 0 50px rgba(254,254,228,.08);
     }
 
-    .cl-carousel{
-      position:absolute;
-      top:50%;left:50%;
-      width:210px;height:148px;
-      margin:-74px -105px;
-      transform-style:preserve-3d;
-      transition:transform 1s cubic-bezier(.34,1.1,.64,1);
+    .cl-bwrap:not(.active):hover .cl-bubble{
+      box-shadow:
+        inset 0 3px 16px rgba(255,255,255,.3),
+        0 16px 52px rgba(0,0,0,.6),
+        0 0 0 2px rgba(254,254,228,.2);
     }
 
-    .cl-ccard{
-      position:absolute;top:0;left:0;
-      width:210px;height:148px;
-      border-radius:20px;overflow:hidden;
-      display:flex;flex-direction:column;
-      align-items:flex-start;justify-content:flex-end;
-      padding:1.3rem 1.5rem;
-      backface-visibility:hidden;
-      cursor:none;
-      transition:opacity .7s ease, filter .4s;
-    }
-    .cl-ccard::after{
-      content:'';position:absolute;inset:0;
-      background:linear-gradient(to top, rgba(0,0,0,.55) 0%, transparent 65%);
-      pointer-events:none;
-    }
-    .cl-ccard-name{font-size:16px;font-weight:900;color:var(--cream);line-height:1.2;letter-spacing:-.3px;position:relative;z-index:2;text-shadow:0 2px 8px rgba(0,0,0,.3)}
-    .cl-ccard-sector{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(254,254,228,.65);margin-top:5px;position:relative;z-index:2}
+    /* Float animations — 6 unique paths */
+    .cl-bubble{animation:var(--fa,flt0) var(--fd,9s) ease-in-out var(--dl,0s) infinite}
+    .cl-bwrap:not(.active):hover .cl-bubble{animation-play-state:paused}
+    @keyframes flt0{0%,100%{transform:translateY(0)translateX(0)}32%{transform:translateY(-15px)translateX(8px)}67%{transform:translateY(7px)translateX(-5px)}}
+    @keyframes flt1{0%,100%{transform:translateY(0)translateX(0)}42%{transform:translateY(-11px)translateX(-10px)}74%{transform:translateY(10px)translateX(6px)}}
+    @keyframes flt2{0%,100%{transform:translateY(0)translateX(0)}37%{transform:translateY(-13px)translateX(7px)}71%{transform:translateY(6px)translateX(-9px)}}
+    @keyframes flt3{0%,100%{transform:translateY(0)translateX(0)}48%{transform:translateY(-9px)translateX(-7px)}82%{transform:translateY(11px)translateX(5px)}}
+    @keyframes flt4{0%,100%{transform:translateY(0)translateX(0)}40%{transform:translateY(-17px)translateX(-5px)}70%{transform:translateY(8px)translateX(10px)}}
+    @keyframes flt5{0%,100%{transform:translateY(0)translateX(0)}44%{transform:translateY(-10px)translateX(9px)}78%{transform:translateY(12px)translateX(-7px)}}
 
-    /* Active card gets outline pulse */
-    .cl-ccard.active::before{
-      content:'';position:absolute;inset:-5px;border-radius:24px;
-      border:2px solid rgba(254,254,228,.5);
-      animation:pulse-ring 2.6s ease-in-out infinite;
-      pointer-events:none;z-index:3;
-    }
-    @keyframes pulse-ring{0%,100%{opacity:.8;transform:scale(1)}50%{opacity:0;transform:scale(1.05)}}
+    /* Bubble content */
+    .cl-b-num{position:absolute;font-size:54px;font-weight:900;letter-spacing:-3px;color:rgba(0,0,0,.13);top:50%;left:50%;transform:translate(-50%,-50%);user-select:none;pointer-events:none;line-height:1}
+    .cl-b-name{font-size:13px;font-weight:900;color:rgba(255,255,255,.96);line-height:1.2;letter-spacing:-.3px;position:relative;z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+    .cl-b-sector{font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.62);margin-top:5px;position:relative;z-index:2}
 
-    /* Controls */
-    .cl-wcontrols{display:flex;flex-direction:column;align-items:center;gap:1.2rem;margin-top:2rem;z-index:2;position:relative}
-    .cl-wctop{display:flex;align-items:center;gap:2.5rem}
-    .cl-warr{font-family:"lorimer-no-2",sans-serif;font-size:20px;font-weight:900;background:rgba(254,254,228,.08);border:2px solid rgba(254,254,228,.2);width:60px;height:60px;border-radius:50%;cursor:none;transition:all .22s;color:var(--cream);display:flex;align-items:center;justify-content:center}
-    .cl-warr:hover{background:var(--orange);border-color:var(--orange);transform:scale(1.1)}
-    .cl-warr:active{transform:scale(.92)}
-    .cl-whint{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(254,254,228,.22);text-align:center}
-
-    .cl-wdots{display:flex;gap:10px;align-items:center}
-    .cl-wdot{width:8px;height:8px;border-radius:50%;background:rgba(254,254,228,.2);transition:all .4s;cursor:none}
-    .cl-wdot.active{width:28px;border-radius:4px;background:var(--orange)}
+    /* Bubble controls */
+    .cl-bcontrols{display:flex;flex-direction:column;align-items:center;gap:1.1rem;padding:1.8rem 0 2.5rem;position:relative;z-index:2}
+    .cl-bctop{display:flex;align-items:center;gap:2.5rem}
+    .cl-barr{font-family:"lorimer-no-2",sans-serif;font-size:20px;font-weight:900;background:rgba(254,254,228,.08);border:2px solid rgba(254,254,228,.18);width:58px;height:58px;border-radius:50%;cursor:none;transition:all .22s;color:var(--cream);display:flex;align-items:center;justify-content:center}
+    .cl-barr:hover{background:var(--orange);border-color:var(--orange);transform:scale(1.1)}
+    .cl-barr:active{transform:scale(.92)}
+    .cl-bhint{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(254,254,228,.22);text-align:center}
+    .cl-bdots{display:flex;gap:10px;align-items:center}
+    .cl-bdot{width:8px;height:8px;border-radius:50%;background:rgba(254,254,228,.2);transition:all .4s;cursor:none}
+    .cl-bdot.active{width:28px;border-radius:4px;background:var(--orange)}
 
     /* Info panel */
     .cl-winfo{
@@ -168,7 +183,6 @@
       gap:3.5rem;align-items:start;
       padding:3.5rem 4rem;
       border-top:1px solid rgba(254,254,228,.08);
-      width:100%;
       transition:opacity .28s ease,transform .28s ease;
     }
     .cl-winfo.fading{opacity:0;transform:translateY(14px)}
@@ -176,7 +190,7 @@
     .cl-wip-main h3{font-size:clamp(32px,4vw,54px);font-weight:900;letter-spacing:-2px;color:var(--cream);line-height:1;margin-bottom:.8rem}
     .cl-wisector{font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:1.6rem}
     .cl-witags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.3rem}
-    .cl-witag{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1.5px solid rgba(254,254,228,.22);color:rgba(254,254,228,.75)}
+    .cl-witag{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1.5px solid rgba(254,254,228,.22);color:rgba(254,254,228,.78)}
     .cl-widesc{font-size:17px;font-weight:300;line-height:1.8;color:rgba(254,254,228,.62);margin-bottom:2rem}
     .cl-wilink{font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);text-decoration:none;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid rgba(249,193,46,.3);padding-bottom:3px;transition:border-color .2s}
     .cl-wilink:hover{border-color:var(--yellow)}
@@ -224,7 +238,7 @@
       .cl-nav{padding:1.2rem 1.5rem}
       .cl-nav-links{display:none}
       .cl-svcs,.cl-cta,.cl-foot,.cl-work-hdr,.cl-winfo{padding-left:1.5rem;padding-right:1.5rem}
-      .cl-carousel-stage{height:280px}
+      .cl-bubble-scene{height:360px}
       .cl-winfo{grid-template-columns:1fr;padding:2rem 1.5rem}
       .cl-wip-num{display:none}
       .cl-wip-main h3{font-size:28px}
@@ -249,7 +263,6 @@
   </div>
 </nav>
 
-<!-- HERO with Three.js canvas -->
 <section class="cl-hero" id="home">
   <canvas id="hero-canvas"></canvas>
   <div class="cl-grain"></div>
@@ -289,25 +302,22 @@
   <div class="cl-stat rv d3"><div class="cl-stn" data-t="4">0</div><div class="cl-stl">Industries</div></div>
 </div>
 
-<!-- 3D CYLINDER CAROUSEL -->
+<!-- BUBBLE CAROUSEL -->
 <section class="cl-work rv" id="work">
   <div class="cl-work-hdr">
     <span>Selected work</span>
     <a href="#">All projects →</a>
   </div>
 
-  <div class="cl-carousel-wrap">
-    <div class="cl-carousel-stage">
-      <div class="cl-carousel" id="carousel"></div>
+  <div class="cl-bubble-scene" id="bscene"></div>
+
+  <div class="cl-bcontrols">
+    <div class="cl-bctop">
+      <button class="cl-barr" id="bbtn-prev" aria-label="Previous">←</button>
+      <div class="cl-bdots" id="bdots"></div>
+      <button class="cl-barr" id="bbtn-next" aria-label="Next">→</button>
     </div>
-    <div class="cl-wcontrols">
-      <div class="cl-wctop">
-        <button class="cl-warr" id="wbtn-prev" aria-label="Previous">←</button>
-        <div class="cl-wdots" id="wdots"></div>
-        <button class="cl-warr" id="wbtn-next" aria-label="Next">→</button>
-      </div>
-      <div class="cl-whint">Click a card · drag · or use arrow keys</div>
-    </div>
+    <div class="cl-bhint">Click a bubble · drag · or use arrow keys</div>
   </div>
 
   <div class="cl-winfo" id="winfo">
@@ -361,8 +371,7 @@ const cur=document.getElementById('cur'),ring=document.getElementById('ring');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
 (function ar(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
-const hoverTargets=()=>document.querySelectorAll('button,a,.cl-stat,.cl-spill,.cl-srow,.cl-ccard');
-function bindCursor(){hoverTargets().forEach(el=>{el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big');});el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big');});});}
+function bindCursor(){document.querySelectorAll('button,a,.cl-stat,.cl-spill,.cl-srow,.cl-bwrap').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big');});el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big');});});}
 bindCursor();
 
 /* ── SCROLL REVEALS ── */
@@ -381,53 +390,136 @@ mb.addEventListener('mousemove',e=>{const r=mb.getBoundingClientRect();mb.style.
 mb.addEventListener('mouseleave',()=>{mb.style.transform='';});
 
 /* ════════════════════════════════════
-   THREE.JS HERO — wireframe shapes + particle field
+   THREE.JS HERO — MEANINGFUL CAUSE SHAPES
+   Globe = worldwide impact
+   Heart = care & compassion
+   Triple rings = community unity
+   Network nodes = people connected
+   Rising cone = uplift & empowerment
+   Trefoil = endless dedication
+   Octahedron = star of hope
 ════════════════════════════════════ */
 (function initThree(){
   if(typeof THREE==='undefined')return;
   const canvas=document.getElementById('hero-canvas');
   const section=document.querySelector('.cl-hero');
+  const W=section.clientWidth, H=section.clientHeight;
 
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(W,H);
   renderer.setClearColor(0x5a3230,1);
 
   const scene=new THREE.Scene();
-  scene.fog=new THREE.FogExp2(0x5a3230,.03);
+  scene.fog=new THREE.FogExp2(0x5a3230,.028);
 
-  const W=section.clientWidth,H=section.clientHeight;
-  renderer.setSize(W,H);
   const camera=new THREE.PerspectiveCamera(58,W/H,.1,100);
   camera.position.set(0,0,6);
 
-  /* Wireframe shapes — brand colors */
-  const defs=[
-    {G:new THREE.TorusKnotGeometry(.72,.16,128,16), p:[-3.8,1.2,-1],   c:0xe5521c, s:[.009,.006,0],    o:.38},
-    {G:new THREE.IcosahedronGeometry(.9,1),          p:[ 4.0,-.8,-2],   c:0xf9c12e, s:[.007,.010,.004], o:.30},
-    {G:new THREE.TorusGeometry(.78,.12,16,48),       p:[ 3.2,2.0,-3],   c:0xfefee4, s:[.005,.007,.003], o:.18},
-    {G:new THREE.OctahedronGeometry(.72),            p:[-3.0,-2.2,-1.5],c:0xfd9337, s:[.008,.005,.007], o:.32},
-    {G:new THREE.BoxGeometry(.95,.95,.95),           p:[ 0.5,-2.8,-2],  c:0xe5521c, s:[.006,.009,.005], o:.20},
-    {G:new THREE.IcosahedronGeometry(.46,0),         p:[-1.8,2.8,-.8],  c:0xfefee4, s:[.012,.007,.009], o:.22},
-    {G:new THREE.TorusGeometry(.52,.09,12,32),       p:[ 1.5,-1.2,-.5], c:0xf9c12e, s:[.010,.004,.006], o:.18},
-    {G:new THREE.OctahedronGeometry(.52),            p:[-4.5,-.5,-2.5], c:0xe5521c, s:[.006,.008,.003], o:.16},
-    {G:new THREE.TorusKnotGeometry(.38,.09,80,10,2,3),p:[2.5,-.4,-.8], c:0xfd9337, s:[.011,.008,.005], o:.25},
-  ];
+  const wMat=(col,op)=>new THREE.MeshBasicMaterial({color:col,wireframe:true,transparent:true,opacity:op});
+  const lMat=(col,op)=>new THREE.LineBasicMaterial({color:col,transparent:true,opacity:op});
 
-  const meshes=defs.map(d=>{
-    const mat=new THREE.MeshBasicMaterial({color:d.c,wireframe:true,opacity:d.o,transparent:true});
-    const m=new THREE.Mesh(d.G,mat);
-    m.position.set(...d.p);
-    m._s=d.s;
-    scene.add(m);
-    return m;
+  /* 1. GLOBE — worldwide reach */
+  const globeG=new THREE.Group();
+  globeG.add(new THREE.Mesh(new THREE.SphereGeometry(.84,22,14),wMat(0xe5521c,.28)));
+  /* equator + prime meridian rings for clarity */
+  const eqGeo=new THREE.TorusGeometry(.84,.018,4,60);
+  globeG.add(new THREE.Mesh(eqGeo,wMat(0xe5521c,.55)));
+  const pmGeo=new THREE.TorusGeometry(.84,.018,4,60);
+  const pm=new THREE.Mesh(pmGeo,wMat(0xe5521c,.4));
+  pm.rotation.y=Math.PI/2;
+  globeG.add(pm);
+  /* outer corona */
+  globeG.add(new THREE.Mesh(new THREE.SphereGeometry(1.04,8,6),wMat(0xe5521c,.06)));
+  globeG.position.set(-3.8,.6,-1.5);
+  globeG._spd=[.004,.006,0];
+  scene.add(globeG);
+
+  /* 2. HEART — care & compassion — built as LineLoop */
+  function makeHeart(scale,col,op){
+    const pts=[];
+    for(let t=Math.PI*2;t>=0;t-=0.06){
+      pts.push(new THREE.Vector3(
+        scale*16*Math.pow(Math.sin(t),3),
+        scale*(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t)),
+        0
+      ));
+    }
+    return new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts),lMat(col,op));
+  }
+  const heartG=new THREE.Group();
+  heartG.add(makeHeart(.048,0xfefee4,.55));   /* outer heart */
+  heartG.add(makeHeart(.032,0xe5521c,.25));   /* inner echo */
+  heartG.position.set(3.6,.5,-1.5);
+  heartG._spd=[0,.004,.002];
+  scene.add(heartG);
+
+  /* 3. TRIPLE RINGS — community, unity, connection */
+  const ringsG=new THREE.Group();
+  [[0,0,0],[Math.PI/2.5,0,Math.PI/5],[Math.PI/6,Math.PI/2,0]].forEach((rot,i)=>{
+    const t=new THREE.Mesh(new THREE.TorusGeometry(.58,.05,10,40),wMat([0xe5521c,0xf9c12e,0xfd9337][i],.45));
+    t.rotation.set(...rot);
+    ringsG.add(t);
   });
+  ringsG.position.set(-2,-2.2,-1.5);
+  ringsG._spd=[.005,.007,.003];
+  scene.add(ringsG);
+
+  /* 4. NETWORK NODES — people connected */
+  const netG=new THREE.Group();
+  const nPts=[];
+  const rng=(a,b)=>a+(b-a)*Math.random();
+  for(let i=0;i<11;i++) nPts.push(new THREE.Vector3(rng(-1,1),rng(-.9,.9),rng(-.3,.3)));
+  const edges=[];
+  nPts.forEach((p,i)=>nPts.forEach((q,j)=>{if(i<j&&p.distanceTo(q)<.95)edges.push(p.clone(),q.clone());}));
+  if(edges.length)netG.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(edges),lMat(0xfefee4,.28)));
+  nPts.forEach(p=>{
+    const sm=new THREE.Mesh(new THREE.SphereGeometry(.065,6,6),wMat(0xf9c12e,.75));
+    sm.position.copy(p);netG.add(sm);
+  });
+  netG.position.set(2.8,-1.8,-2);
+  netG._spd=[.006,.004,.008];
+  scene.add(netG);
+
+  /* 5. RISING CONE — uplift & empowerment */
+  const coneG=new THREE.Group();
+  coneG.add(new THREE.Mesh(new THREE.ConeGeometry(.55,1.2,7),wMat(0xfd9337,.36)));
+  /* radiating ring at base */
+  coneG.add(new THREE.Mesh(new THREE.TorusGeometry(.55,.02,4,28),wMat(0xfd9337,.55)));
+  coneG.position.set(.5,2.8,-2);
+  coneG._spd=[.003,.005,.002];
+  scene.add(coneG);
+
+  /* 6. TREFOIL KNOT — endless dedication */
+  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(.58,.1,120,10,2,3),wMat(0xe5521c,.32));
+  knot.position.set(-3.5,2,-2.5);
+  knot._spd=[.007,.009,.004];
+  scene.add(knot);
+
+  /* 7. OCTAHEDRON — star of hope & inspiration */
+  const octaG=new THREE.Group();
+  octaG.add(new THREE.Mesh(new THREE.OctahedronGeometry(.68),wMat(0xf9c12e,.38)));
+  octaG.add(new THREE.Mesh(new THREE.OctahedronGeometry(.9),wMat(0xf9c12e,.1)));
+  octaG.position.set(1.5,1.8,-1);
+  octaG._spd=[.006,.008,.005];
+  scene.add(octaG);
+
+  /* 8. PLUS/CROSS — healthcare & helping */
+  const crossG=new THREE.Group();
+  crossG.add(new THREE.Mesh(new THREE.BoxGeometry(1.0,.25,.25),wMat(0xfefee4,.3)));
+  crossG.add(new THREE.Mesh(new THREE.BoxGeometry(.25,1.0,.25),wMat(0xfefee4,.3)));
+  crossG.position.set(-1.2,1.5,-.8);
+  crossG._spd=[.004,.006,.005];
+  scene.add(crossG);
 
   /* Particle field */
+  const pPos=new Float32Array(240*3);
+  for(let i=0;i<240*3;i++) pPos[i]=(Math.random()-.5)*22;
   const pGeo=new THREE.BufferGeometry();
-  const pN=200,pPos=new Float32Array(pN*3);
-  for(let i=0;i<pN*3;i++) pPos[i]=(Math.random()-.5)*22;
   pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
-  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xfefee4,size:.035,transparent:true,opacity:.25})));
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xfefee4,size:.04,transparent:true,opacity:.22})));
+
+  const allObjs=[globeG,heartG,ringsG,netG,coneG,knot,octaG,crossG];
 
   let camTx=0,camTy=0;
   document.addEventListener('mousemove',e=>{
@@ -442,7 +534,7 @@ mb.addEventListener('mouseleave',()=>{mb.style.transform='';});
 
   (function tick(){
     requestAnimationFrame(tick);
-    meshes.forEach(m=>{m.rotation.x+=m._s[0];m.rotation.y+=m._s[1];m.rotation.z+=m._s[2];});
+    allObjs.forEach(o=>{if(o._spd){o.rotation.x+=o._spd[0];o.rotation.y+=o._spd[1];o.rotation.z+=o._spd[2];}});
     camera.position.x+=(camTx*.9-camera.position.x)*.04;
     camera.position.y+=(-camTy*.55-camera.position.y)*.04;
     camera.lookAt(0,0,0);
@@ -450,72 +542,86 @@ mb.addEventListener('mouseleave',()=>{mb.style.transform='';});
   })();
 })();
 
-/* ── Hero text 3D tilt on mouse ── */
+/* ── Hero text parallax tilt ── */
 (function(){
   const txt=document.querySelector('.cl-hero-text');
   const hero=document.querySelector('.cl-hero');
   hero.addEventListener('mousemove',e=>{
     const r=hero.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5;
-    const y=(e.clientY-r.top)/r.height-.5;
+    const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
     txt.style.transform=`perspective(900px) rotateY(${x*7}deg) rotateX(${-y*4}deg) translateZ(12px)`;
   });
   hero.addEventListener('mouseleave',()=>{txt.style.transform='';});
 })();
 
 /* ════════════════════════════════════
-   3D CYLINDER CAROUSEL
+   BUBBLE CAROUSEL
 ════════════════════════════════════ */
 const projects=[
   {name:"National Sawdust",     sector:"Arts · Brooklyn",     color:"#e5521c",tags:["Arts","Branding","Campaign"],  desc:"Brand identity and seasonal campaign design for Brooklyn's premier new music venue."},
-  {name:"VisionIntoArt",        sector:"Arts · NYC",           color:"#f9c12e",tags:["Arts","Strategy","Digital"],   desc:"Multi-channel campaign strategy for this pioneering commissioning arts organization."},
+  {name:"VisionIntoArt",        sector:"Arts · NYC",           color:"#c4973a",tags:["Arts","Strategy","Digital"],   desc:"Multi-channel campaign strategy for this pioneering commissioning arts organization."},
   {name:"Brooklyn Bridge Park", sector:"Community · Brooklyn", color:"#fd9337",tags:["Parks","Community","Digital"], desc:"Digital outreach and community engagement campaigns for NYC's beloved waterfront park."},
-  {name:"Urban Health Plan",    sector:"Healthcare · Bronx",   color:"#7a9eb5",tags:["Healthcare","Outreach"],       desc:"Community health outreach reaching over 40,000 families across the Bronx."},
+  {name:"Urban Health Plan",    sector:"Healthcare · Bronx",   color:"#5a8fa8",tags:["Healthcare","Outreach"],       desc:"Community health outreach reaching over 40,000 families across the Bronx."},
   {name:"Simon Wiesenthal Ctr", sector:"Community · National", color:"#7a5c3a",tags:["Jewish Org","Digital"],        desc:"Digital strategy and campaign design for the world-renowned human rights organization."},
-  {name:"Spiderwoman Theater",  sector:"Theater · NYC",        color:"#b8a035",tags:["Theater","Branding","Print"],  desc:"Identity refresh and print collateral for one of NYC's oldest feminist theater companies."},
+  {name:"Spiderwoman Theater",  sector:"Theater · NYC",        color:"#6b7a35",tags:["Theater","Branding","Print"],  desc:"Identity refresh and print collateral for one of NYC's oldest feminist theater companies."},
 ];
 
-const N=projects.length;
-const STEP=360/N;
-/* Cylinder radius: cards are 210px wide, gap of ~30px between adjacent faces */
-const R_CYL=260;
+/* Scattered cluster positions (px from center of stage) */
+const BASE_POS=[
+  [-18,-80],  /* 0 — upper center */
+  [168,-75],  /* 1 — upper right  */
+  [218, 42],  /* 2 — right        */
+  [ 42,118],  /* 3 — lower center */
+  [-155, 98], /* 4 — lower left   */
+  [-210,-22], /* 5 — left         */
+];
+const FLOAT_ANIMS=['flt0','flt1','flt2','flt3','flt4','flt5'];
+const FLOAT_DURS=['9s','11s','8s','10s','9.5s','8.5s'];
+const FLOAT_DELAYS=['-2s','-5s','-1s','-7s','-3.5s','-6s'];
 
-let activeIdx=0,spinning=false,autoTimer=null;
+const scene=document.getElementById('bscene');
+let activeIdx=0, spinning=false, autoTimer=null;
 
-/* Build cylinder cards */
-const carouselEl=document.getElementById('carousel');
-projects.forEach((p,i)=>{
-  const d=document.createElement('div');
-  d.className='cl-ccard'+(i===0?' active':'');
-  d.style.transform=`rotateY(${i*STEP}deg) translateZ(${R_CYL}px)`;
-  d.style.background=p.color;
-  d.innerHTML=`<div class="cl-ccard-name">${p.name}</div><div class="cl-ccard-sector">${p.sector}</div>`;
-  d.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectItem(i);});
-  carouselEl.appendChild(d);
+/* Build bubbles */
+const wraps=projects.map((p,i)=>{
+  const wrap=document.createElement('div');
+  wrap.className='cl-bwrap'+(i===0?' active':'');
+  wrap.style.setProperty('--bx',BASE_POS[i][0]+'px');
+  wrap.style.setProperty('--by',BASE_POS[i][1]+'px');
+
+  const bub=document.createElement('div');
+  bub.className='cl-bubble';
+  bub.style.setProperty('--bc',p.color);
+  bub.style.setProperty('--fa',FLOAT_ANIMS[i]);
+  bub.style.setProperty('--fd',FLOAT_DURS[i]);
+  bub.style.setProperty('--dl',FLOAT_DELAYS[i]);
+
+  bub.innerHTML=`<div class="cl-b-num">${String(i+1).padStart(2,'0')}</div>
+    <div class="cl-b-name">${p.name}</div>
+    <div class="cl-b-sector">${p.sector}</div>`;
+
+  wrap.appendChild(bub);
+  wrap.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectBubble(i);});
+  scene.appendChild(wrap);
+  return wrap;
 });
 bindCursor();
 
-/* Build dots */
-const dotsEl=document.getElementById('wdots');
+/* Dots */
+const dotsEl=document.getElementById('bdots');
 projects.forEach((_,i)=>{
   const d=document.createElement('div');
-  d.className='cl-wdot'+(i===0?' active':'');
-  d.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectItem(i);});
+  d.className='cl-bdot'+(i===0?' active':'');
+  d.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectBubble(i);});
   dotsEl.appendChild(d);
 });
 
-function renderCarousel(){
-  /* Rotate whole cylinder so active card faces camera */
-  carouselEl.style.transform=`rotateY(${-activeIdx*STEP}deg)`;
-
-  document.querySelectorAll('.cl-ccard').forEach((c,i)=>{
-    c.classList.toggle('active',i===activeIdx);
-    /* Fade out cards that are behind the cylinder */
-    const dist=Math.min(Math.abs(i-activeIdx),N-Math.abs(i-activeIdx));
-    const opMap=[1,.72,.28,.05,.28,.72];
-    c.style.opacity=opMap[dist]??0.05;
+function renderBubbles(){
+  wraps.forEach((w,i)=>{
+    w.classList.toggle('active',i===activeIdx);
+    w.classList.toggle('dim',i!==activeIdx);
   });
-  document.querySelectorAll('.cl-wdot').forEach((d,i)=>d.classList.toggle('active',i===activeIdx));
+  document.querySelectorAll('.cl-bdot').forEach((d,i)=>d.classList.toggle('active',i===activeIdx));
 }
 
 function setInfo(){
@@ -533,46 +639,61 @@ function updateInfo(animate){
   else setInfo();
 }
 
-function spinTo(idx){
+function selectBubble(idx){
   if(spinning)return;
   spinning=true;
   pauseAuto();
-  activeIdx=((idx%N)+N)%N;
-  renderCarousel();
+  activeIdx=((idx%projects.length)+projects.length)%projects.length;
+  renderBubbles();
   updateInfo(true);
-  setTimeout(()=>{spinning=false;},1050);
+  setTimeout(()=>{spinning=false;},350);
 }
 
-function selectItem(idx){
-  if(spinning)return;
-  spinning=true;
-  pauseAuto();
-  activeIdx=idx;
-  renderCarousel();
-  updateInfo(true);
-  setTimeout(()=>{spinning=false;},1050);
-}
+function startAuto(){clearInterval(autoTimer);autoTimer=setInterval(()=>{if(!spinning)selectBubble(activeIdx+1);},4200);}
+function pauseAuto(){clearInterval(autoTimer);setTimeout(startAuto,7000);}
 
-function startAuto(){clearInterval(autoTimer);autoTimer=setInterval(()=>{if(!spinning)spinTo(activeIdx+1);},4000);}
-function pauseAuto(){clearInterval(autoTimer);setTimeout(startAuto,6500);}
-
-document.getElementById('wbtn-prev').addEventListener('click',()=>spinTo(activeIdx-1));
-document.getElementById('wbtn-next').addEventListener('click',()=>spinTo(activeIdx+1));
+document.getElementById('bbtn-prev').addEventListener('click',()=>selectBubble(activeIdx-1));
+document.getElementById('bbtn-next').addEventListener('click',()=>selectBubble(activeIdx+1));
 document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowLeft')spinTo(activeIdx-1);
-  if(e.key==='ArrowRight')spinTo(activeIdx+1);
+  if(e.key==='ArrowLeft')selectBubble(activeIdx-1);
+  if(e.key==='ArrowRight')selectBubble(activeIdx+1);
 });
 
+/* Mouse repulsion — bubbles drift away from cursor */
+document.getElementById('work').addEventListener('mousemove',e=>{
+  const scRect=scene.getBoundingClientRect();
+  const scCx=scRect.left+scRect.width/2;
+  const scCy=scRect.top+scRect.height/2;
+  const R=130;
+  wraps.forEach((w,i)=>{
+    const [bx,by]=BASE_POS[i];
+    const wx=scCx+bx, wy=scCy+by;
+    const dx=e.clientX-wx, dy=e.clientY-wy;
+    const dist=Math.hypot(dx,dy);
+    let ox=0,oy=0;
+    if(dist<R&&dist>0){const f=(1-dist/R)*22;ox=-(dx/dist)*f;oy=-(dy/dist)*f;}
+    w.style.setProperty('--bx',(bx+ox)+'px');
+    w.style.setProperty('--by',(by+oy)+'px');
+  });
+});
+
+document.getElementById('work').addEventListener('mouseleave',()=>{
+  wraps.forEach((w,i)=>{
+    w.style.setProperty('--bx',BASE_POS[i][0]+'px');
+    w.style.setProperty('--by',BASE_POS[i][1]+'px');
+  });
+});
+
+/* Drag to advance */
 let dragX=null;
-carouselEl.addEventListener('mousedown',e=>{dragX=e.clientX;});
+scene.addEventListener('mousedown',e=>{dragX=e.clientX;});
 document.addEventListener('mouseup',e=>{
   if(dragX===null)return;
-  const dx=e.clientX-dragX;
-  if(Math.abs(dx)>40)spinTo(activeIdx+(dx<0?1:-1));
+  if(Math.abs(e.clientX-dragX)>40)selectBubble(activeIdx+(e.clientX<dragX?1:-1));
   dragX=null;
 });
 
-renderCarousel();
+renderBubbles();
 updateInfo(false);
 startAuto();
 </script>
