@@ -161,10 +161,12 @@
     @keyframes flt4{0%,100%{transform:translateY(0)translateX(0)}40%{transform:translateY(-17px)translateX(-5px)}70%{transform:translateY(8px)translateX(10px)}}
     @keyframes flt5{0%,100%{transform:translateY(0)translateX(0)}44%{transform:translateY(-10px)translateX(9px)}78%{transform:translateY(12px)translateX(-7px)}}
 
+    /* Bubble photo layer */
+    .cl-b-img{position:absolute;inset:0;border-radius:50%;background:center/cover no-repeat;opacity:.55;z-index:0}
     /* Bubble content */
-    .cl-b-num{position:absolute;font-size:54px;font-weight:900;letter-spacing:-3px;color:rgba(0,0,0,.13);top:50%;left:50%;transform:translate(-50%,-50%);user-select:none;pointer-events:none;line-height:1}
-    .cl-b-name{font-size:13px;font-weight:900;color:rgba(255,255,255,.96);line-height:1.2;letter-spacing:-.3px;position:relative;z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.3)}
-    .cl-b-sector{font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.62);margin-top:5px;position:relative;z-index:2}
+    .cl-b-num{position:absolute;font-size:54px;font-weight:900;letter-spacing:-3px;color:rgba(0,0,0,.13);top:50%;left:50%;transform:translate(-50%,-50%);user-select:none;pointer-events:none;line-height:1;z-index:1}
+    .cl-b-name{font-size:13px;font-weight:900;color:rgba(255,255,255,.96);line-height:1.2;letter-spacing:-.3px;position:relative;z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+    .cl-b-sector{font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:5px;position:relative;z-index:2}
 
     /* Bubble controls */
     .cl-bcontrols{display:flex;flex-direction:column;align-items:center;gap:1.1rem;padding:1.8rem 0 2.5rem;position:relative;z-index:2}
@@ -555,66 +557,103 @@ mb.addEventListener('mouseleave',()=>{mb.style.transform='';});
 })();
 
 /* ════════════════════════════════════
-   BUBBLE CAROUSEL
+   BUBBLE CAROUSEL — live from Strapi
 ════════════════════════════════════ */
-const projects=[
-  {name:"National Sawdust",     sector:"Arts · Brooklyn",     color:"#e5521c",tags:["Arts","Branding","Campaign"],  desc:"Brand identity and seasonal campaign design for Brooklyn's premier new music venue."},
-  {name:"VisionIntoArt",        sector:"Arts · NYC",           color:"#c4973a",tags:["Arts","Strategy","Digital"],   desc:"Multi-channel campaign strategy for this pioneering commissioning arts organization."},
-  {name:"Brooklyn Bridge Park", sector:"Community · Brooklyn", color:"#fd9337",tags:["Parks","Community","Digital"], desc:"Digital outreach and community engagement campaigns for NYC's beloved waterfront park."},
-  {name:"Urban Health Plan",    sector:"Healthcare · Bronx",   color:"#5a8fa8",tags:["Healthcare","Outreach"],       desc:"Community health outreach reaching over 40,000 families across the Bronx."},
-  {name:"Simon Wiesenthal Ctr", sector:"Community · National", color:"#7a5c3a",tags:["Jewish Org","Digital"],        desc:"Digital strategy and campaign design for the world-renowned human rights organization."},
-  {name:"Spiderwoman Theater",  sector:"Theater · NYC",        color:"#6b7a35",tags:["Theater","Branding","Print"],  desc:"Identity refresh and print collateral for one of NYC's oldest feminist theater companies."},
-];
+const STRAPI='https://obscure-sands-38267-76dcf1fb3212.herokuapp.com';
+const FALLBACK_COLORS=['#e5521c','#c4973a','#fd9337','#5a8fa8','#7a5c3a','#6b7a35'];
 
-/* Scattered cluster positions (px from center of stage) */
 const BASE_POS=[
-  [-18,-80],  /* 0 — upper center */
-  [168,-75],  /* 1 — upper right  */
-  [218, 42],  /* 2 — right        */
-  [ 42,118],  /* 3 — lower center */
-  [-155, 98], /* 4 — lower left   */
-  [-210,-22], /* 5 — left         */
+  [-18,-80],[168,-75],[218,42],[42,118],[-155,98],[-210,-22],
 ];
 const FLOAT_ANIMS=['flt0','flt1','flt2','flt3','flt4','flt5'];
 const FLOAT_DURS=['9s','11s','8s','10s','9.5s','8.5s'];
 const FLOAT_DELAYS=['-2s','-5s','-1s','-7s','-3.5s','-6s'];
 
-const scene=document.getElementById('bscene');
-let activeIdx=0, spinning=false, autoTimer=null;
+const bscene=document.getElementById('bscene');
+let projects=[], wraps=[], activeIdx=0, spinning=false, autoTimer=null;
 
-/* Build bubbles */
-const wraps=projects.map((p,i)=>{
-  const wrap=document.createElement('div');
-  wrap.className='cl-bwrap'+(i===0?' active':'');
-  wrap.style.setProperty('--bx',BASE_POS[i][0]+'px');
-  wrap.style.setProperty('--by',BASE_POS[i][1]+'px');
+async function loadAndBuild(){
+  try{
+    const res=await fetch(`${STRAPI}/api/case-studies?populate=Feature_Image&sort=publishedAt:desc&pagination[pageSize]=6`);
+    const json=await res.json();
+    projects=json.data.map((item,i)=>{
+      const a=item.attributes;
+      const img=a.Feature_Image?.data?.attributes;
+      return {
+        name: a.Project_Title||'',
+        sector: [a.Client,a.Cause].filter(Boolean).join(' · '),
+        color: FALLBACK_COLORS[i%FALLBACK_COLORS.length],
+        image: img?.formats?.medium?.url||img?.url||null,
+        tags: [a.Cause].filter(Boolean),
+        desc: a.Campaign_Services||'',
+        slug: a.slug||'#',
+      };
+    });
+  }catch(e){
+    console.warn('Strapi fetch failed, using fallback',e);
+    projects=[
+      {name:"National Sawdust",sector:"Arts · Brooklyn",color:"#e5521c",image:null,tags:["Arts"],desc:"Brand identity and seasonal campaign design for Brooklyn's premier new music venue.",slug:'#'},
+      {name:"VisionIntoArt",sector:"Arts · NYC",color:"#c4973a",image:null,tags:["Arts"],desc:"Multi-channel campaign strategy for this pioneering arts organization.",slug:'#'},
+      {name:"Brooklyn Bridge Park",sector:"Community · Brooklyn",color:"#fd9337",image:null,tags:["Parks"],desc:"Digital outreach for NYC's beloved waterfront park.",slug:'#'},
+      {name:"Urban Health Plan",sector:"Healthcare · Bronx",color:"#5a8fa8",image:null,tags:["Healthcare"],desc:"Community health outreach reaching over 40,000 families across the Bronx.",slug:'#'},
+      {name:"Simon Wiesenthal Ctr",sector:"Community · National",color:"#7a5c3a",image:null,tags:["Digital"],desc:"Digital strategy for the world-renowned human rights organization.",slug:'#'},
+      {name:"Spiderwoman Theater",sector:"Theater · NYC",color:"#6b7a35",image:null,tags:["Theater"],desc:"Identity refresh for one of NYC's oldest feminist theater companies.",slug:'#'},
+    ];
+  }
+  buildBubbles();
+}
 
-  const bub=document.createElement('div');
-  bub.className='cl-bubble';
-  bub.style.setProperty('--bc',p.color);
-  bub.style.setProperty('--fa',FLOAT_ANIMS[i]);
-  bub.style.setProperty('--fd',FLOAT_DURS[i]);
-  bub.style.setProperty('--dl',FLOAT_DELAYS[i]);
+function buildBubbles(){
+  /* Build bubble wraps */
+  wraps=projects.map((p,i)=>{
+    const wrap=document.createElement('div');
+    wrap.className='cl-bwrap'+(i===0?' active':'');
+    wrap.style.setProperty('--bx',BASE_POS[i][0]+'px');
+    wrap.style.setProperty('--by',BASE_POS[i][1]+'px');
 
-  bub.innerHTML=`<div class="cl-b-num">${String(i+1).padStart(2,'0')}</div>
-    <div class="cl-b-name">${p.name}</div>
-    <div class="cl-b-sector">${p.sector}</div>`;
+    const bub=document.createElement('div');
+    bub.className='cl-bubble';
+    bub.style.setProperty('--bc',p.color);
+    bub.style.setProperty('--fa',FLOAT_ANIMS[i]);
+    bub.style.setProperty('--fd',FLOAT_DURS[i]);
+    bub.style.setProperty('--dl',FLOAT_DELAYS[i]);
 
-  wrap.appendChild(bub);
-  wrap.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectBubble(i);});
-  scene.appendChild(wrap);
-  return wrap;
-});
-bindCursor();
+    /* Photo layer — sits behind glass gradient */
+    if(p.image){
+      const img=document.createElement('div');
+      img.className='cl-b-img';
+      img.style.backgroundImage=`url('${p.image}')`;
+      bub.appendChild(img);
+    }
 
-/* Dots */
-const dotsEl=document.getElementById('bdots');
-projects.forEach((_,i)=>{
-  const d=document.createElement('div');
-  d.className='cl-bdot'+(i===0?' active':'');
-  d.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectBubble(i);});
-  dotsEl.appendChild(d);
-});
+    const inner=document.createElement('div');
+    inner.innerHTML=`<div class="cl-b-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="cl-b-name">${p.name}</div>
+      <div class="cl-b-sector">${p.sector}</div>`;
+    bub.appendChild(inner);
+
+    wrap.appendChild(bub);
+    wrap.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectBubble(i);});
+    bscene.appendChild(wrap);
+    return wrap;
+  });
+  bindCursor();
+
+  /* Build dots */
+  const dotsEl=document.getElementById('bdots');
+  projects.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='cl-bdot'+(i===0?' active':'');
+    d.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectBubble(i);});
+    dotsEl.appendChild(d);
+  });
+
+  renderBubbles();
+  updateInfo(false);
+  startAuto();
+}
+
+loadAndBuild();
 
 function renderBubbles(){
   wraps.forEach((w,i)=>{
@@ -661,7 +700,7 @@ document.addEventListener('keydown',e=>{
 
 /* Mouse repulsion — bubbles drift away from cursor */
 document.getElementById('work').addEventListener('mousemove',e=>{
-  const scRect=scene.getBoundingClientRect();
+  const scRect=bscene.getBoundingClientRect();
   const scCx=scRect.left+scRect.width/2;
   const scCy=scRect.top+scRect.height/2;
   const R=130;
