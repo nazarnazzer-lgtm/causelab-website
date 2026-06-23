@@ -68,7 +68,7 @@
     .cl-spill:hover{background:var(--orange);color:var(--cream);opacity:1;border-color:var(--orange)}
 
     /* STATS */
-    .cl-stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid rgba(90,50,48,.1)}
+    .cl-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid rgba(90,50,48,.1)}
     @media(max-width:700px){.cl-stats{grid-template-columns:repeat(2,1fr)}}
     .cl-stat{padding:3rem 2rem;border-right:1px solid rgba(90,50,48,.1);transition:background .3s,transform .3s}
     .cl-stat:last-child{border-right:none}
@@ -84,100 +84,62 @@
     .rvl.in{opacity:1;transform:translateX(0)}
 
     /* ═══════════════════════════════
-       WORK SECTION — BUBBLE CAROUSEL
+       WORK SECTION — CARD RAIL
     ═══════════════════════════════ */
     .cl-work{background:var(--brown);padding:6rem 0 0;overflow:hidden}
-    .cl-work-hdr{display:flex;justify-content:space-between;align-items:center;padding:0 3rem;margin-bottom:2rem}
+    .cl-work-hdr{display:flex;justify-content:space-between;align-items:center;padding:0 3rem;margin-bottom:2.5rem}
     .cl-work-hdr span{font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(254,254,228,.3)}
     .cl-work-hdr a{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);text-decoration:none;border-bottom:1.5px solid rgba(249,193,46,.3);padding-bottom:2px;transition:border-color .2s}
     .cl-work-hdr a:hover{border-color:var(--yellow)}
 
-    .cl-bubble-scene{position:relative;width:100%;height:460px;overflow:hidden}
+    /* Rail container */
+    .cl-rail{overflow:hidden;position:relative;padding:.5rem 0 1.5rem}
+    .cl-rail::before,.cl-rail::after{content:'';position:absolute;top:0;bottom:0;z-index:3;width:100px;pointer-events:none}
+    .cl-rail::before{left:0;background:linear-gradient(to right,var(--brown),transparent)}
+    .cl-rail::after{right:0;background:linear-gradient(to left,var(--brown),transparent)}
 
-    /* Ambient glow radial */
-    .cl-bubble-scene::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);width:600px;height:360px;background:radial-gradient(ellipse,rgba(229,82,28,.1) 0%,transparent 70%);pointer-events:none;z-index:0}
+    /* Scrolling track */
+    .cl-rail-track{display:flex;gap:1.4rem;animation:rail-scroll 44s linear infinite;width:max-content;padding:1.4rem 1.4rem}
+    .cl-rail-track.paused{animation-play-state:paused}
+    @keyframes rail-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-    /* Each bubble has a positioning wrapper + the visual inner */
-    .cl-bwrap{
-      position:absolute;top:50%;left:50%;
-      width:152px;height:152px;
-      margin:-76px 0 0 -76px;
-      transform:translate(var(--bx,0px),var(--by,0px));
-      transition:transform .28s ease-out,opacity .35s;
-      cursor:none;z-index:1;
+    /* Card */
+    .cl-card{
+      flex:none;width:285px;height:372px;border-radius:12px;
+      position:relative;overflow:hidden;
+      transform:skewX(-1.5deg);
+      transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;
+      box-shadow:0 8px 28px rgba(0,0,0,.5);
+      cursor:none;
     }
-    .cl-bwrap.active{
-      transform:translate(var(--bx,0px),var(--by,0px)) scale(1.3);
-      z-index:10;
-    }
-    .cl-bwrap:not(.active):hover{
-      transform:translate(var(--bx,0px),calc(var(--by,0px) - 10px)) scale(1.1);
-    }
-    .cl-bwrap.dim{opacity:.38}
+    .cl-card:hover{transform:skewX(0deg) scale(1.06) translateY(-8px);box-shadow:0 28px 70px rgba(0,0,0,.75);z-index:10}
+    .cl-card.sel{transform:skewX(0deg) scale(1.04) translateY(-4px);box-shadow:0 0 0 2.5px var(--orange),0 22px 56px rgba(0,0,0,.7);z-index:5}
 
-    /* The visual bubble */
-    .cl-bubble{
-      width:100%;height:100%;border-radius:50%;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      text-align:center;padding:.9rem;position:relative;overflow:hidden;
+    /* Card layers */
+    .cl-card-bg{position:absolute;inset:0;background:var(--bc,var(--orange));z-index:0}
+    .cl-card-img{position:absolute;inset:0;background:center/cover no-repeat;z-index:1;opacity:.5;mix-blend-mode:multiply}
+    .cl-card-ov{position:absolute;inset:0;z-index:2;background:linear-gradient(155deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.82) 100%)}
 
-      /* Glass/soap bubble look */
-      background:
-        radial-gradient(circle at 36% 28%,rgba(255,255,255,.52) 0%,rgba(255,255,255,.14) 28%,transparent 58%),
-        radial-gradient(circle at 70% 72%,rgba(0,0,0,.1) 0%,transparent 50%),
-        var(--bc,#e5521c);
-      border:1.5px solid rgba(255,255,255,.2);
-      box-shadow:
-        inset 0 3px 14px rgba(255,255,255,.24),
-        inset 0 -3px 8px rgba(0,0,0,.14),
-        0 10px 40px rgba(0,0,0,.5),
-        0 2px 6px rgba(0,0,0,.3);
-      transition:box-shadow .4s;
-    }
+    /* Card content */
+    .cl-card-body{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;z-index:3}
+    .cl-card-num{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:.4rem}
+    .cl-card-name{font-size:22px;font-weight:900;letter-spacing:-.5px;color:#fff;line-height:1.1;margin-bottom:.4rem}
+    .cl-card-sec{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45)}
 
-    .cl-bwrap.active .cl-bubble{
-      box-shadow:
-        inset 0 3px 18px rgba(255,255,255,.36),
-        inset 0 -3px 8px rgba(0,0,0,.1),
-        0 20px 64px rgba(0,0,0,.65),
-        0 0 0 3px rgba(254,254,228,.4),
-        0 0 50px rgba(254,254,228,.08);
-    }
+    /* Orange bar at bottom */
+    .cl-card-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1);z-index:4}
+    .cl-card:hover .cl-card-bar,.cl-card.sel .cl-card-bar{transform:scaleX(1)}
 
-    .cl-bwrap:not(.active):hover .cl-bubble{
-      box-shadow:
-        inset 0 3px 16px rgba(255,255,255,.3),
-        0 16px 52px rgba(0,0,0,.6),
-        0 0 0 2px rgba(254,254,228,.2);
-    }
+    /* Arrow badge */
+    .cl-card-arr{position:absolute;top:1.2rem;right:1.2rem;width:36px;height:36px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;opacity:0;transform:scale(.4) rotate(-45deg);transition:opacity .32s,transform .32s cubic-bezier(.16,1,.3,1);z-index:3;pointer-events:none}
+    .cl-card:hover .cl-card-arr,.cl-card.sel .cl-card-arr{opacity:1;transform:scale(1) rotate(0deg)}
 
-    /* Float animations — 6 unique paths */
-    .cl-bubble{animation:var(--fa,flt0) var(--fd,9s) ease-in-out var(--dl,0s) infinite}
-    .cl-bwrap:not(.active):hover .cl-bubble{animation-play-state:paused}
-    @keyframes flt0{0%,100%{transform:translateY(0)translateX(0)}32%{transform:translateY(-15px)translateX(8px)}67%{transform:translateY(7px)translateX(-5px)}}
-    @keyframes flt1{0%,100%{transform:translateY(0)translateX(0)}42%{transform:translateY(-11px)translateX(-10px)}74%{transform:translateY(10px)translateX(6px)}}
-    @keyframes flt2{0%,100%{transform:translateY(0)translateX(0)}37%{transform:translateY(-13px)translateX(7px)}71%{transform:translateY(6px)translateX(-9px)}}
-    @keyframes flt3{0%,100%{transform:translateY(0)translateX(0)}48%{transform:translateY(-9px)translateX(-7px)}82%{transform:translateY(11px)translateX(5px)}}
-    @keyframes flt4{0%,100%{transform:translateY(0)translateX(0)}40%{transform:translateY(-17px)translateX(-5px)}70%{transform:translateY(8px)translateX(10px)}}
-    @keyframes flt5{0%,100%{transform:translateY(0)translateX(0)}44%{transform:translateY(-10px)translateX(9px)}78%{transform:translateY(12px)translateX(-7px)}}
-
-    /* Bubble photo layer */
-    .cl-b-img{position:absolute;inset:0;border-radius:50%;background:center/cover no-repeat;opacity:.55;z-index:0}
-    /* Bubble content */
-    .cl-b-num{position:absolute;font-size:54px;font-weight:900;letter-spacing:-3px;color:rgba(0,0,0,.13);top:50%;left:50%;transform:translate(-50%,-50%);user-select:none;pointer-events:none;line-height:1;z-index:1}
-    .cl-b-name{font-size:13px;font-weight:900;color:rgba(255,255,255,.96);line-height:1.2;letter-spacing:-.3px;position:relative;z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.5)}
-    .cl-b-sector{font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:5px;position:relative;z-index:2}
-
-    /* Bubble controls */
-    .cl-bcontrols{display:flex;flex-direction:column;align-items:center;gap:1.1rem;padding:1.8rem 0 2.5rem;position:relative;z-index:2}
-    .cl-bctop{display:flex;align-items:center;gap:2.5rem}
-    .cl-barr{font-family:"lorimer-no-2",sans-serif;font-size:20px;font-weight:900;background:rgba(254,254,228,.08);border:2px solid rgba(254,254,228,.18);width:58px;height:58px;border-radius:50%;cursor:none;transition:all .22s;color:var(--cream);display:flex;align-items:center;justify-content:center}
-    .cl-barr:hover{background:var(--orange);border-color:var(--orange);transform:scale(1.1)}
-    .cl-barr:active{transform:scale(.92)}
-    .cl-bhint{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(254,254,228,.22);text-align:center}
+    /* Dots + hint */
+    .cl-bcontrols{display:flex;flex-direction:column;align-items:center;gap:.8rem;padding:1.4rem 0 2rem}
     .cl-bdots{display:flex;gap:10px;align-items:center}
     .cl-bdot{width:8px;height:8px;border-radius:50%;background:rgba(254,254,228,.2);transition:all .4s;cursor:none}
     .cl-bdot.active{width:28px;border-radius:4px;background:var(--orange)}
+    .cl-bhint{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(254,254,228,.22);text-align:center}
 
     /* Info panel */
     .cl-winfo{
@@ -240,7 +202,6 @@
       .cl-nav{padding:1.2rem 1.5rem}
       .cl-nav-links{display:none}
       .cl-svcs,.cl-cta,.cl-foot,.cl-work-hdr,.cl-winfo{padding-left:1.5rem;padding-right:1.5rem}
-      .cl-bubble-scene{height:360px}
       .cl-winfo{grid-template-columns:1fr;padding:2rem 1.5rem}
       .cl-wip-num{display:none}
       .cl-wip-main h3{font-size:28px}
@@ -270,13 +231,13 @@
   <div class="cl-grain"></div>
   <div class="cl-hero-inner">
     <div class="cl-hero-text">
-      <div class="cl-eyebrow">Creative Studio · Est. 2012 · New York</div>
+      <div class="cl-eyebrow">Creative Studio · New York</div>
       <h1 class="cl-h1">
         <span class="cl-wl"><span class="cl-wi l1">Creative that</span></span>
         <span class="cl-wl"><span class="cl-wi l2">moves people</span></span>
         <span class="cl-wl"><span class="cl-wi l3">to act.</span></span>
       </h1>
-      <p class="cl-hero-desc">Full-service advertising, design, and strategy for nonprofits, healthcare, arts, and community organizations.</p>
+      <p class="cl-hero-desc">We are Cause Lab — incubators, problem-solvers, and design thinkers. Through innovative co-creation and experimentation, we amplify the voices of those who work for social change.</p>
       <div class="cl-hero-foot">
         <a href="#work" class="cl-btn-o">View our work →</a>
         <span class="cl-hint">↓ Scroll to explore</span>
@@ -292,34 +253,31 @@
 </section>
 
 <div class="cl-strip">
-  <div class="cl-strip-label">21 clients · 12 years · one mission</div>
+  <div class="cl-strip-label">Amplifying voices · social change · New York</div>
   <div class="cl-srow1" id="sr1"></div>
   <div class="cl-srow2" id="sr2"></div>
 </div>
 
 <div class="cl-stats">
-  <div class="cl-stat rv"><div class="cl-stn" data-t="12">0</div><div class="cl-stl">Years active</div></div>
-  <div class="cl-stat rv d1"><div class="cl-stn" data-t="21">0</div><div class="cl-stl">Clients served</div></div>
-  <div class="cl-stat rv d2"><div class="cl-stn" data-t="150">0</div><div class="cl-stl">Campaigns launched</div></div>
-  <div class="cl-stat rv d3"><div class="cl-stn" data-t="4">0</div><div class="cl-stl">Industries</div></div>
+  <div class="cl-stat rv"><div class="cl-stn" data-t="21">0</div><div class="cl-stl">Partners served</div></div>
+  <div class="cl-stat rv d1"><div class="cl-stn" data-t="150">0</div><div class="cl-stl">Campaigns launched</div></div>
+  <div class="cl-stat rv d2"><div class="cl-stn" data-t="4">0</div><div class="cl-stl">Causes championed</div></div>
 </div>
 
-<!-- BUBBLE CAROUSEL -->
+<!-- CARD RAIL -->
 <section class="cl-work rv" id="work">
   <div class="cl-work-hdr">
     <span>Selected work</span>
     <a href="#">All projects →</a>
   </div>
 
-  <div class="cl-bubble-scene" id="bscene"></div>
+  <div class="cl-rail" id="crail">
+    <div class="cl-rail-track" id="card-track"></div>
+  </div>
 
   <div class="cl-bcontrols">
-    <div class="cl-bctop">
-      <button class="cl-barr" id="bbtn-prev" aria-label="Previous">←</button>
-      <div class="cl-bdots" id="bdots"></div>
-      <button class="cl-barr" id="bbtn-next" aria-label="Next">→</button>
-    </div>
-    <div class="cl-bhint">Click a bubble · drag · or use arrow keys</div>
+    <div class="cl-bdots" id="bdots"></div>
+    <div class="cl-bhint">Click a card to explore · or use arrow keys</div>
   </div>
 
   <div class="cl-winfo" id="winfo">
@@ -329,7 +287,7 @@
       <p class="cl-wisector" id="wisector"></p>
       <div class="cl-witags" id="witags"></div>
       <p class="cl-widesc" id="widesc"></p>
-      <a href="#" class="cl-wilink">View project →</a>
+      <a href="#" class="cl-wilink" id="wilink">View project →</a>
     </div>
   </div>
 </section>
@@ -337,7 +295,7 @@
 <section class="cl-svcs" id="services">
   <div class="cl-svcs-hdr">
     <h2 class="rvl">What we actually do</h2>
-    <p class="rv">Full-service creative under one roof — strategy, design, and production.</p>
+    <p class="rv">A collaborative, engaged approach to advertising — co-creating with the organizations we serve.</p>
   </div>
   <div class="cl-srow rv"><span class="cl-sn">01</span><div class="cl-sc"><span class="cl-sm">Brand identity</span><p class="cl-sd">Visual systems that carry your mission with clarity and power across every touchpoint.</p></div><div class="cl-stags"><span class="cl-stag">Logo</span><span class="cl-stag">Visual system</span></div><span class="cl-sarr">↗</span></div>
   <div class="cl-srow rv d1"><span class="cl-sn">02</span><div class="cl-sc"><span class="cl-sm">Campaign strategy</span><p class="cl-sd">Multi-channel campaigns built around your goals — awareness, action, and donations.</p></div><div class="cl-stags"><span class="cl-stag">Multi-channel</span><span class="cl-stag">Social</span></div><span class="cl-sarr">↗</span></div>
@@ -348,7 +306,7 @@
 <section class="cl-cta" id="contact">
   <div class="cl-cta-g">CAUSE</div>
   <h2 class="rv">Let's make something<br><em>worth talking about.</em></h2>
-  <p class="rv d1">Your cause deserves creative that actually converts.<br>Tell us what you're working on.</p>
+  <p class="rv d1">Cause marketing is not just a buzzword for us.<br>Tell us what you're working on.</p>
   <a href="mailto:hello@causelab.io" class="cl-btn-cta rv d2" id="magbtn">Get in touch →</a>
 </section>
 
@@ -373,7 +331,7 @@ const cur=document.getElementById('cur'),ring=document.getElementById('ring');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
 (function ar(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
-function bindCursor(){document.querySelectorAll('button,a,.cl-stat,.cl-spill,.cl-srow,.cl-bwrap').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big');});el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big');});});}
+function bindCursor(){document.querySelectorAll('button,a,.cl-stat,.cl-spill,.cl-srow,.cl-card,.cl-bdot').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big');});el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big');});});}
 bindCursor();
 
 /* ── SCROLL REVEALS ── */
@@ -557,20 +515,13 @@ mb.addEventListener('mouseleave',()=>{mb.style.transform='';});
 })();
 
 /* ════════════════════════════════════
-   BUBBLE CAROUSEL — live from Strapi
+   CARD RAIL — live from Strapi
 ════════════════════════════════════ */
 const STRAPI='https://obscure-sands-38267-76dcf1fb3212.herokuapp.com';
 const FALLBACK_COLORS=['#e5521c','#c4973a','#fd9337','#5a8fa8','#7a5c3a','#6b7a35'];
 
-const BASE_POS=[
-  [-18,-80],[168,-75],[218,42],[42,118],[-155,98],[-210,-22],
-];
-const FLOAT_ANIMS=['flt0','flt1','flt2','flt3','flt4','flt5'];
-const FLOAT_DURS=['9s','11s','8s','10s','9.5s','8.5s'];
-const FLOAT_DELAYS=['-2s','-5s','-1s','-7s','-3.5s','-6s'];
-
-const bscene=document.getElementById('bscene');
-let projects=[], wraps=[], activeIdx=0, spinning=false, autoTimer=null;
+const ctrack=document.getElementById('card-track');
+let projects=[],selCards=[],activeIdx=0;
 
 async function loadAndBuild(){
   try{
@@ -579,14 +530,14 @@ async function loadAndBuild(){
     projects=json.data.map((item,i)=>{
       const a=item.attributes;
       const img=a.Feature_Image?.data?.attributes;
-      return {
-        name: a.Project_Title||'',
-        sector: [a.Client,a.Cause].filter(Boolean).join(' · '),
-        color: FALLBACK_COLORS[i%FALLBACK_COLORS.length],
-        image: img?.formats?.medium?.url||img?.url||null,
-        tags: [a.Cause].filter(Boolean),
-        desc: a.Campaign_Services||'',
-        slug: a.slug||'#',
+      return{
+        name:a.Project_Title||'',
+        sector:[a.Client,a.Cause].filter(Boolean).join(' · '),
+        color:FALLBACK_COLORS[i%FALLBACK_COLORS.length],
+        image:img?.formats?.medium?.url||img?.url||null,
+        tags:[a.Cause].filter(Boolean),
+        desc:a.Campaign_Services||'',
+        slug:a.slug||'#',
       };
     });
   }catch(e){
@@ -600,67 +551,43 @@ async function loadAndBuild(){
       {name:"Spiderwoman Theater",sector:"Theater · NYC",color:"#6b7a35",image:null,tags:["Theater"],desc:"Identity refresh for one of NYC's oldest feminist theater companies.",slug:'#'},
     ];
   }
-  buildBubbles();
+  buildCards();
 }
 
-function buildBubbles(){
-  /* Build bubble wraps */
-  wraps=projects.map((p,i)=>{
-    const wrap=document.createElement('div');
-    wrap.className='cl-bwrap'+(i===0?' active':'');
-    wrap.style.setProperty('--bx',BASE_POS[i][0]+'px');
-    wrap.style.setProperty('--by',BASE_POS[i][1]+'px');
-
-    const bub=document.createElement('div');
-    bub.className='cl-bubble';
-    bub.style.setProperty('--bc',p.color);
-    bub.style.setProperty('--fa',FLOAT_ANIMS[i]);
-    bub.style.setProperty('--fd',FLOAT_DURS[i]);
-    bub.style.setProperty('--dl',FLOAT_DELAYS[i]);
-
-    /* Photo layer — sits behind glass gradient */
-    if(p.image){
-      const img=document.createElement('div');
-      img.className='cl-b-img';
-      img.style.backgroundImage=`url('${p.image}')`;
-      bub.appendChild(img);
+function buildCards(){
+  selCards=[];
+  const doubled=[...projects,...projects];
+  doubled.forEach((p,i)=>{
+    const idx=i%projects.length;
+    const isFirst=i<projects.length;
+    const card=document.createElement('div');
+    card.className='cl-card'+(idx===0&&isFirst?' sel':'');
+    card.style.setProperty('--bc',p.color);
+    card.innerHTML=`<div class="cl-card-bg"></div>${p.image?`<div class="cl-card-img" style="background-image:url('${p.image}')"></div>`:''}<div class="cl-card-ov"></div><div class="cl-card-arr">↗</div><div class="cl-card-body"><div class="cl-card-num">${String(idx+1).padStart(2,'0')}</div><div class="cl-card-name">${p.name}</div><div class="cl-card-sec">${p.sector}</div></div><div class="cl-card-bar"></div>`;
+    if(isFirst){
+      card.addEventListener('click',()=>selectCard(idx));
+      card.addEventListener('mouseenter',()=>ctrack.classList.add('paused'));
+      card.addEventListener('mouseleave',()=>ctrack.classList.remove('paused'));
+      selCards.push(card);
     }
-
-    const inner=document.createElement('div');
-    inner.innerHTML=`<div class="cl-b-num">${String(i+1).padStart(2,'0')}</div>
-      <div class="cl-b-name">${p.name}</div>
-      <div class="cl-b-sector">${p.sector}</div>`;
-    bub.appendChild(inner);
-
-    wrap.appendChild(bub);
-    wrap.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectBubble(i);});
-    bscene.appendChild(wrap);
-    return wrap;
+    ctrack.appendChild(card);
   });
-  bindCursor();
-
-  /* Build dots */
   const dotsEl=document.getElementById('bdots');
   projects.forEach((_,i)=>{
     const d=document.createElement('div');
     d.className='cl-bdot'+(i===0?' active':'');
-    d.addEventListener('click',()=>{if(i!==activeIdx&&!spinning)selectBubble(i);});
+    d.addEventListener('click',()=>selectCard(i));
     dotsEl.appendChild(d);
   });
-
-  renderBubbles();
-  updateInfo(false);
-  startAuto();
+  bindCursor();
+  setInfo();
 }
 
-loadAndBuild();
-
-function renderBubbles(){
-  wraps.forEach((w,i)=>{
-    w.classList.toggle('active',i===activeIdx);
-    w.classList.toggle('dim',i!==activeIdx);
-  });
+function selectCard(idx){
+  activeIdx=((idx%projects.length)+projects.length)%projects.length;
+  selCards.forEach((c,i)=>c.classList.toggle('sel',i===activeIdx));
   document.querySelectorAll('.cl-bdot').forEach((d,i)=>d.classList.toggle('active',i===activeIdx));
+  updateInfo(true);
 }
 
 function setInfo(){
@@ -670,6 +597,7 @@ function setInfo(){
   document.getElementById('wisector').textContent=p.sector;
   document.getElementById('witags').innerHTML=p.tags.map(t=>`<span class="cl-witag">${t}</span>`).join('');
   document.getElementById('widesc').textContent=p.desc;
+  const lk=document.getElementById('wilink');if(lk)lk.href=p.slug||'#';
 }
 
 function updateInfo(animate){
@@ -678,63 +606,12 @@ function updateInfo(animate){
   else setInfo();
 }
 
-function selectBubble(idx){
-  if(spinning)return;
-  spinning=true;
-  pauseAuto();
-  activeIdx=((idx%projects.length)+projects.length)%projects.length;
-  renderBubbles();
-  updateInfo(true);
-  setTimeout(()=>{spinning=false;},350);
-}
-
-function startAuto(){clearInterval(autoTimer);autoTimer=setInterval(()=>{if(!spinning)selectBubble(activeIdx+1);},4200);}
-function pauseAuto(){clearInterval(autoTimer);setTimeout(startAuto,7000);}
-
-document.getElementById('bbtn-prev').addEventListener('click',()=>selectBubble(activeIdx-1));
-document.getElementById('bbtn-next').addEventListener('click',()=>selectBubble(activeIdx+1));
 document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowLeft')selectBubble(activeIdx-1);
-  if(e.key==='ArrowRight')selectBubble(activeIdx+1);
+  if(e.key==='ArrowLeft')selectCard(activeIdx-1);
+  if(e.key==='ArrowRight')selectCard(activeIdx+1);
 });
 
-/* Mouse repulsion — bubbles drift away from cursor */
-document.getElementById('work').addEventListener('mousemove',e=>{
-  const scRect=bscene.getBoundingClientRect();
-  const scCx=scRect.left+scRect.width/2;
-  const scCy=scRect.top+scRect.height/2;
-  const R=130;
-  wraps.forEach((w,i)=>{
-    const [bx,by]=BASE_POS[i];
-    const wx=scCx+bx, wy=scCy+by;
-    const dx=e.clientX-wx, dy=e.clientY-wy;
-    const dist=Math.hypot(dx,dy);
-    let ox=0,oy=0;
-    if(dist<R&&dist>0){const f=(1-dist/R)*22;ox=-(dx/dist)*f;oy=-(dy/dist)*f;}
-    w.style.setProperty('--bx',(bx+ox)+'px');
-    w.style.setProperty('--by',(by+oy)+'px');
-  });
-});
-
-document.getElementById('work').addEventListener('mouseleave',()=>{
-  wraps.forEach((w,i)=>{
-    w.style.setProperty('--bx',BASE_POS[i][0]+'px');
-    w.style.setProperty('--by',BASE_POS[i][1]+'px');
-  });
-});
-
-/* Drag to advance */
-let dragX=null;
-scene.addEventListener('mousedown',e=>{dragX=e.clientX;});
-document.addEventListener('mouseup',e=>{
-  if(dragX===null)return;
-  if(Math.abs(e.clientX-dragX)>40)selectBubble(activeIdx+(e.clientX<dragX?1:-1));
-  dragX=null;
-});
-
-renderBubbles();
-updateInfo(false);
-startAuto();
+loadAndBuild();
 </script>
 </body>
 </html>
