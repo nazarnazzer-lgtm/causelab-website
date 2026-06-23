@@ -76,35 +76,36 @@
     .cl-spill:hover{background:var(--orange);color:var(--cream);opacity:1;border-color:var(--orange)}
 
     /* STATS */
-    .cl-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid rgba(90,50,48,.1)}
+    .cl-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid rgba(90,50,48,.08)}
     @media(max-width:700px){.cl-stats{grid-template-columns:repeat(2,1fr)}}
-    .cl-stat{padding:3rem 2rem;border-right:1px solid rgba(90,50,48,.1);transition:background .3s,transform .3s}
+    .cl-stat{padding:3.5rem 3rem;border-right:1px solid rgba(90,50,48,.08);transition:background .35s,transform .35s}
     .cl-stat:last-child{border-right:none}
-    .cl-stat:hover{background:var(--yellow);transform:translateY(-4px)}
-    .cl-stn{font-size:56px;font-weight:900;letter-spacing:-2px;color:var(--orange);line-height:1}
-    .cl-stl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.4;margin-top:.5rem}
+    .cl-stat:hover{background:rgba(229,82,28,.04);transform:translateY(-3px)}
+    .cl-stn{font-size:64px;font-weight:900;letter-spacing:-2px;color:var(--orange);line-height:1}
+    .cl-stl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.35;margin-top:.6rem}
 
     /* REVEALS */
-    .rv{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}
-    .rv.in{opacity:1;transform:translateY(0)}
-    .rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}
-    .rvl{opacity:0;transform:translateX(-28px);transition:opacity .7s ease,transform .7s ease}
+    .rv{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+    .rv.in{opacity:1;transform:translateY(0) scale(1)}
+    .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+    .rvl{opacity:0;transform:translateX(-24px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
     .rvl.in{opacity:1;transform:translateX(0)}
 
     /* ═══════════════════════════════
        WORK SECTION — CARD RAIL
     ═══════════════════════════════ */
-    .cl-work{background:var(--brown);padding:6rem 0 0;overflow:hidden}
-    .cl-work-hdr{display:flex;justify-content:space-between;align-items:center;padding:0 3rem;margin-bottom:2.5rem}
-    .cl-work-hdr span{font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(254,254,228,.3)}
-    .cl-work-hdr a{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);text-decoration:none;border-bottom:1.5px solid rgba(249,193,46,.3);padding-bottom:2px;transition:border-color .2s}
-    .cl-work-hdr a:hover{border-color:var(--yellow)}
+    .cl-work{background:var(--cream);padding:7rem 0 0;overflow:hidden}
+    .cl-work-hdr{display:flex;justify-content:space-between;align-items:flex-end;padding:0 3rem;margin-bottom:3rem}
+    .cl-work-hdr-l{display:flex;flex-direction:column;gap:.5rem}
+    .cl-work-hdr span{font-size:clamp(34px,4.5vw,52px);font-weight:900;letter-spacing:-1.5px;color:var(--brown);line-height:1}
+    .cl-work-hdr a{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:gap .22s;padding-bottom:3px}
+    .cl-work-hdr a:hover{gap:13px}
 
     /* Rail container */
     .cl-rail{overflow:hidden;position:relative;padding:.5rem 0 1.5rem}
     .cl-rail::before,.cl-rail::after{content:'';position:absolute;top:0;bottom:0;z-index:3;width:100px;pointer-events:none}
-    .cl-rail::before{left:0;background:linear-gradient(to right,var(--brown),transparent)}
-    .cl-rail::after{right:0;background:linear-gradient(to left,var(--brown),transparent)}
+    .cl-rail::before{left:0;background:linear-gradient(to right,var(--cream),transparent)}
+    .cl-rail::after{right:0;background:linear-gradient(to left,var(--cream),transparent)}
 
     /* Scrolling track */
     .cl-rail-track{display:flex;gap:1.4rem;animation:rail-scroll 44s linear infinite;width:max-content;padding:1.4rem 1.4rem}
@@ -113,15 +114,15 @@
 
     /* Card */
     .cl-card{
-      flex:none;width:285px;height:372px;border-radius:12px;
+      flex:none;width:285px;height:372px;border-radius:14px;
       position:relative;overflow:hidden;
       transform:skewX(-1.5deg);
       transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;
-      box-shadow:0 8px 28px rgba(0,0,0,.5);
+      box-shadow:0 2px 8px rgba(90,50,48,.07),0 6px 24px rgba(90,50,48,.08);
       cursor:none;
     }
-    .cl-card:hover{transform:skewX(0deg) scale(1.06) translateY(-8px);box-shadow:0 28px 70px rgba(0,0,0,.75);z-index:10}
-    .cl-card.sel{transform:skewX(0deg) scale(1.04) translateY(-4px);box-shadow:0 0 0 2.5px var(--orange),0 22px 56px rgba(0,0,0,.7);z-index:5}
+    .cl-card:hover{transform:skewX(0deg) scale(1.06) translateY(-8px);box-shadow:0 20px 56px rgba(90,50,48,.18),0 4px 12px rgba(90,50,48,.1);z-index:10}
+    .cl-card.sel{transform:skewX(0deg) scale(1.04) translateY(-4px);box-shadow:0 0 0 2.5px var(--orange),0 14px 44px rgba(90,50,48,.14);z-index:5}
 
     /* Card layers */
     .cl-card-bg{position:absolute;inset:0;background:var(--bc,var(--orange));z-index:0}
@@ -143,63 +144,67 @@
     .cl-card:hover .cl-card-arr,.cl-card.sel .cl-card-arr{opacity:1;transform:scale(1) rotate(0deg)}
 
     /* Dots + hint */
-    .cl-bcontrols{display:flex;flex-direction:column;align-items:center;gap:.8rem;padding:1.4rem 0 2rem}
+    .cl-bcontrols{display:flex;flex-direction:column;align-items:center;gap:.7rem;padding:1.4rem 0 0}
     .cl-bdots{display:flex;gap:10px;align-items:center}
-    .cl-bdot{width:8px;height:8px;border-radius:50%;background:rgba(254,254,228,.2);transition:all .4s;cursor:none}
-    .cl-bdot.active{width:28px;border-radius:4px;background:var(--orange)}
-    .cl-bhint{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(254,254,228,.22);text-align:center}
+    .cl-bdot{width:7px;height:7px;border-radius:50%;background:rgba(90,50,48,.14);transition:all .4s;cursor:none}
+    .cl-bdot.active{width:26px;border-radius:3.5px;background:var(--orange)}
+    .cl-bhint{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(90,50,48,.26);text-align:center}
 
     /* Info panel */
     .cl-winfo{
-      display:grid;grid-template-columns:120px 1fr;
-      gap:3.5rem;align-items:start;
-      padding:3.5rem 4rem;
-      border-top:1px solid rgba(254,254,228,.08);
+      display:grid;grid-template-columns:80px 1fr;
+      gap:3rem;align-items:start;
+      padding:3.5rem 3rem 6rem;
+      border-top:1px solid rgba(90,50,48,.07);
       transition:opacity .28s ease,transform .28s ease;
     }
     .cl-winfo.fading{opacity:0;transform:translateY(14px)}
-    .cl-wip-num{font-size:108px;font-weight:900;letter-spacing:-6px;color:rgba(254,254,228,.06);line-height:1;user-select:none;padding-top:.4rem}
-    .cl-wip-main h3{font-size:clamp(32px,4vw,54px);font-weight:900;letter-spacing:-2px;color:var(--cream);line-height:1;margin-bottom:.8rem}
-    .cl-wisector{font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:1.6rem}
-    .cl-witags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.3rem}
-    .cl-witag{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 16px;border-radius:100px;border:1.5px solid rgba(254,254,228,.22);color:rgba(254,254,228,.78)}
-    .cl-widesc{font-size:17px;font-weight:300;line-height:1.8;color:rgba(254,254,228,.62);margin-bottom:2rem}
-    .cl-wilink{font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);text-decoration:none;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid rgba(249,193,46,.3);padding-bottom:3px;transition:border-color .2s}
-    .cl-wilink:hover{border-color:var(--yellow)}
+    .cl-wip-num{font-size:88px;font-weight:900;letter-spacing:-4px;color:rgba(90,50,48,.05);line-height:1;user-select:none;padding-top:.2rem}
+    .cl-wip-main h3{font-size:clamp(26px,3.5vw,46px);font-weight:900;letter-spacing:-1.5px;color:var(--brown);line-height:1;margin-bottom:.6rem}
+    .cl-wisector{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:1.2rem}
+    .cl-witags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.1rem}
+    .cl-witag{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 12px;border-radius:100px;border:1px solid rgba(90,50,48,.16);color:rgba(90,50,48,.48)}
+    .cl-widesc{font-size:16px;font-weight:300;line-height:1.85;color:rgba(90,50,48,.5);margin-bottom:1.8rem}
+    .cl-wilink{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:gap .22s}
+    .cl-wilink:hover{gap:13px}
 
     /* SERVICES */
-    .cl-svcs{padding:6rem 3rem;border-top:1px solid rgba(90,50,48,.1);perspective:900px}
+    .cl-svcs{padding:7rem 3rem;border-top:1px solid rgba(90,50,48,.07);perspective:1000px}
     .cl-svcs-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4rem;flex-wrap:wrap;gap:2rem}
-    .cl-svcs-hdr h2{font-size:clamp(40px,5vw,60px);font-weight:900;letter-spacing:-2px;line-height:1;max-width:280px}
-    .cl-svcs-hdr p{font-size:15px;font-weight:300;line-height:1.7;max-width:320px;opacity:.55;padding-top:.5rem}
-    .cl-srow{display:grid;grid-template-columns:28px 1fr auto 20px;align-items:start;gap:1.5rem;padding:1.75rem 0;border-bottom:1px solid rgba(90,50,48,.08);transition:padding-left .25s,transform .35s,box-shadow .35s;cursor:none;transform-style:preserve-3d}
-    .cl-srow:hover{padding-left:18px;transform:translateZ(14px) rotateX(-.8deg);box-shadow:0 16px 48px rgba(90,50,48,.1)}
-    .cl-sn{font-size:11px;font-weight:700;letter-spacing:1px;opacity:.22;padding-top:5px}
+    .cl-svcs-hdr-l{display:flex;flex-direction:column;gap:.5rem}
+    .cl-svcs-hdr h2{font-size:clamp(38px,5vw,58px);font-weight:900;letter-spacing:-2px;line-height:1}
+    .cl-svcs-hdr p{font-size:15px;font-weight:300;line-height:1.8;max-width:320px;opacity:.48;padding-top:.5rem}
+    .cl-srow{display:grid;grid-template-columns:28px 1fr auto 20px;align-items:start;gap:1.5rem;padding:2rem 0;border-bottom:1px solid rgba(90,50,48,.07);transition:padding-left .28s,transform .38s,box-shadow .38s;cursor:none;transform-style:preserve-3d}
+    .cl-srow:hover{padding-left:20px;transform:translateZ(16px) rotateX(-.6deg);box-shadow:0 12px 44px rgba(90,50,48,.08)}
+    .cl-sn{font-size:11px;font-weight:700;letter-spacing:1px;opacity:.18;padding-top:5px}
     .cl-sc{min-width:0}
-    .cl-sm{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.5px;display:block;transition:color .2s}
+    .cl-sm{font-size:clamp(20px,3vw,28px);font-weight:900;letter-spacing:-.5px;display:block;transition:color .22s}
     .cl-srow:hover .cl-sm{color:var(--orange)}
-    .cl-sd{font-size:14px;font-weight:300;opacity:.6;line-height:1.6;max-height:0;overflow:hidden;transition:max-height .4s ease,margin .3s}
-    .cl-srow:hover .cl-sd{max-height:60px;margin-top:8px}
+    .cl-sd{font-size:14px;font-weight:300;opacity:.5;line-height:1.65;max-height:0;overflow:hidden;transition:max-height .42s ease,margin .3s}
+    .cl-srow:hover .cl-sd{max-height:64px;margin-top:8px}
     .cl-stags{display:flex;gap:6px;flex-wrap:wrap;padding-top:4px}
-    .cl-stag{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:100px;background:rgba(90,50,48,.07);opacity:.55}
-    .cl-sarr{font-size:22px;opacity:.15;transition:all .25s;padding-top:4px}
-    .cl-srow:hover .cl-sarr{opacity:1;color:var(--orange);transform:translate(4px,-4px)}
+    .cl-stag{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 11px;border-radius:100px;background:rgba(90,50,48,.05);opacity:.6}
+    .cl-sarr{font-size:20px;opacity:.12;transition:all .28s;padding-top:5px}
+    .cl-srow:hover .cl-sarr{opacity:1;color:var(--orange);transform:translate(5px,-5px)}
 
     /* CTA */
-    .cl-cta{padding:8rem 3rem;background:var(--brown);text-align:center;position:relative;overflow:hidden}
-    .cl-cta-g{position:absolute;font-size:220px;font-weight:900;letter-spacing:-8px;color:rgba(254,254,228,.04);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;animation:gpulse 5s ease-in-out infinite;pointer-events:none;line-height:1}
-    @keyframes gpulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.06)}}
-    .cl-cta h2{font-size:clamp(36px,5vw,56px);font-weight:900;letter-spacing:-2px;color:var(--cream);line-height:1;margin-bottom:1.5rem;position:relative}
-    .cl-cta h2 em{color:var(--yellow);font-style:italic}
-    .cl-cta p{font-size:16px;font-weight:300;color:rgba(254,254,228,.5);margin-bottom:3rem;position:relative;line-height:1.7}
-    .cl-btn-cta{background:var(--cream);color:var(--brown);font-family:"lorimer-no-2",sans-serif;font-size:16px;font-weight:900;padding:18px 44px;border-radius:100px;border:none;cursor:none;transition:all .3s;position:relative;text-decoration:none;display:inline-block}
-    .cl-btn-cta:hover{background:var(--yellow);transform:scale(1.05)}
+    .cl-cta{padding:10rem 3rem;background:var(--brown);text-align:center;position:relative;overflow:hidden}
+    .cl-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(229,82,28,.12) 0%,transparent 65%);pointer-events:none}
+    .cl-cta h2{font-size:clamp(38px,5.5vw,64px);font-weight:900;letter-spacing:-2px;color:var(--cream);line-height:1;margin-bottom:1.6rem;position:relative}
+    .cl-cta h2 em{color:var(--orange);font-style:italic}
+    .cl-cta p{font-size:16px;font-weight:300;color:rgba(254,254,228,.42);margin-bottom:3.5rem;position:relative;line-height:1.8}
+    .cl-btn-cta{background:var(--cream);color:var(--brown);font-family:"lorimer-no-2",sans-serif;font-size:15px;font-weight:900;padding:18px 46px;border-radius:100px;border:none;cursor:none;transition:background .25s,color .25s,transform .25s,box-shadow .25s;position:relative;text-decoration:none;display:inline-block;box-shadow:0 4px 24px rgba(0,0,0,.2)}
+    .cl-btn-cta:hover{background:var(--orange);color:var(--cream);transform:scale(1.05);box-shadow:0 8px 36px rgba(229,82,28,.4)}
 
     /* FOOTER */
-    .cl-foot{padding:2.5rem 3rem;background:var(--brown);border-top:1px solid rgba(254,254,228,.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-    .cl-foot-logo{font-size:16px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:var(--cream)}
+    .cl-foot{padding:2.5rem 3rem;background:var(--brown);border-top:1px solid rgba(254,254,228,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+    .cl-foot-logo{font-size:15px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:rgba(254,254,228,.55)}
     .cl-foot-logo em{color:var(--orange);font-style:normal}
-    .cl-foot-r{display:flex;gap:2rem;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(254,254,228,.22)}
+    .cl-foot-r{display:flex;gap:2rem;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(254,254,228,.18)}
+
+    /* Section eyebrow label */
+    .cl-eyebrow-tag{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:8px;margin-bottom:.8rem}
+    .cl-eyebrow-tag::before{content:'';width:18px;height:1.5px;background:currentColor;display:inline-block;flex-shrink:0}
 
     @keyframes fi{to{opacity:1}}
     @keyframes su{to{transform:translateY(0)}}
@@ -273,7 +278,10 @@
 <!-- CARD RAIL -->
 <section class="cl-work rv" id="work">
   <div class="cl-work-hdr">
-    <span>Selected work</span>
+    <div class="cl-work-hdr-l">
+      <p class="cl-eyebrow-tag">Our work</p>
+      <span>Selected projects</span>
+    </div>
     <a href="#">All projects →</a>
   </div>
 
@@ -300,7 +308,10 @@
 
 <section class="cl-svcs" id="services">
   <div class="cl-svcs-hdr">
-    <h2 class="rvl">What we actually do</h2>
+    <div class="cl-svcs-hdr-l">
+      <p class="cl-eyebrow-tag rvl">Services</p>
+      <h2 class="rvl">What we<br>actually do</h2>
+    </div>
     <p class="rv">A collaborative, engaged approach to advertising — co-creating with the organizations we serve.</p>
   </div>
   <div class="cl-srow rv"><span class="cl-sn">01</span><div class="cl-sc"><span class="cl-sm">Brand identity</span><p class="cl-sd">Visual systems that carry your mission with clarity and power across every touchpoint.</p></div><div class="cl-stags"><span class="cl-stag">Logo</span><span class="cl-stag">Visual system</span></div><span class="cl-sarr">↗</span></div>
@@ -310,7 +321,6 @@
 </section>
 
 <section class="cl-cta" id="contact">
-  <div class="cl-cta-g">CAUSE</div>
   <h2 class="rv">Let's make something<br><em>worth talking about.</em></h2>
   <p class="rv d1">Cause marketing is not just a buzzword for us.<br>Tell us what you're working on.</p>
   <a href="mailto:hello@causelab.io" class="cl-btn-cta rv d2" id="magbtn">Get in touch →</a>
